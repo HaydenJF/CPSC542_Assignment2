@@ -61,8 +61,8 @@ def run_tuner(dataset_train, dataset_val, c):
     tuner = kt.RandomSearch(
         build_unet,
         objective='val_accuracy',
-        max_trials=c["max_trials"],  # Adjust as necessary
-        executions_per_trial=c["executions_per_trial"],  # Adjust as necessary for reliability
+        max_trials=c["max_trials"]*c["m"],  # Adjust as necessary
+        executions_per_trial=c["executions_per_trial"]*c["m"],  # Adjust as necessary for reliability
         directory='../models',
         project_name='unet_tuning'
     )
@@ -79,20 +79,21 @@ def run_tuner(dataset_train, dataset_val, c):
     return tuner
 
 def get_best_model(dataset_train, dataset_val):
-    '''c = {
+    c = {
         "max_trials": 4,
         "executions_per_trial": 1,
-        "epochs": 10,
-        "patience": 3
+        "epochs": 20,
+        "patience": 3,
         "m": 5
-    }'''
+    }
+    '''
     c = {
         "max_trials": 4,
         "executions_per_trial": 1,
         "epochs": 2,
         "patience": 1,
         "m": 1
-    }
+    }'''
     
     tuner = run_tuner(dataset_train, dataset_val, c)
     best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]

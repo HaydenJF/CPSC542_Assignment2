@@ -2,8 +2,8 @@ from tensorflow.keras.models import Model
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from GradCAM import GradCAM
-import cv2
+#from GradCAM import GradCAM
+#import cv2
 
 def evaluate_model(model, dataset):
     loss, accuracy = model.evaluate(dataset)
@@ -49,7 +49,7 @@ def apply_gradcam(img, model, gradcam, layerName=None):
 
 def validation(model, test_dataset, layerName=None):
     evaluate_model(model, test_dataset)
-    
+    '''
     # Initialize GradCAM
     if layerName is None:
         layerName = GradCAM(model, 0, 'conv2d_18').find_target_layer()
@@ -64,5 +64,5 @@ def validation(model, test_dataset, layerName=None):
         heatmap, output = gradcam.overlay_heatmap(heatmap, img)
         plt.imshow(output)
         plt.show()
-        
+    '''
         
