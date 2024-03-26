@@ -108,8 +108,21 @@ def get_best_model(dataset_train, dataset_val):
         callbacks=[stop_early]
     )
 
+
+
     datetime_str = datetime.now().strftime("%Y%m%d-%H%M%S")
-    best_model.save(f'../models/unet_model_{datetime_str}.weights.h5')
+    dir_path = f'../models/unet_model_{datetime_str}'
+    os.makedirs(dir_path, exist_ok=True)
+
+    weights_file_path = os.path.join(dir_path, 'unet_model.weights.h5')
+    json_file_path = os.path.join(dir_path, 'unet_architecture.json')
+
+    best_model.save(weights_file_path)
+
+    json_string = best_model.to_json()
+    with open(json_file_path, 'w') as json_file:
+        json_file.write(json_string)
+
 
     return best_model, history
 
